@@ -19,6 +19,7 @@ public class SimpleJavaApp {
   public static void main(String[] args) throws Exception {
     while (true) {
       System.out.println(new Date());
+      System.out.println("ThreadName=" + Thread.currentThread().getName());
       Thread.sleep(1000);
     }
   }
