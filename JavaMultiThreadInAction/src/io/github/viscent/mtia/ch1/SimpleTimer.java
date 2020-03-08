@@ -16,7 +16,7 @@ public class SimpleTimer {
   private static int count;
 
   public static void main(String[] args) {
-    count = args.length >= 1 ? Integer.valueOf(args[0]) : 60;
+    count = args.length >= 1 ? Integer.valueOf(args[0]) : 600;
     int remaining;
     while (true) {
       remaining = countDown();
