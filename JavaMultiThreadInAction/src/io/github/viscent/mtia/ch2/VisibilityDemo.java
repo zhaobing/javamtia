@@ -22,7 +22,7 @@ public class VisibilityDemo {
     thread.start();
 
     // 指定的时间内任务没有执行结束的话，就将其取消
-    Thread.sleep(10000);
+    Thread.sleep(3000);
     timeConsumingTask.cancel();
   }
 }
