@@ -1,6 +1,8 @@
-package prac.non_visibility_by_volatile;
+package prac.ch2.non_visibility_by_atomic;
 
-public class VisibilityByVolatileDemo {
+import java.util.concurrent.atomic.AtomicInteger;
+
+public class VisibilityByAtomicDemo {
     public static void main(String[] args) throws InterruptedException {
         new WorkThread().start();
         Thread.sleep(1000);
@@ -15,7 +17,7 @@ class WorkThread extends Thread {
     public void run() {
         System.out.println("WorkThread start");
         while (true) {
-            if (ShareData.flag == 1) {
+            if (ShareData.flag.get() == 1) {
                 break;
             }
         }
@@ -24,14 +26,14 @@ class WorkThread extends Thread {
 }
 
 class ShareData {
-    public static volatile  int flag = -1;
+    public static AtomicInteger flag = new AtomicInteger(-1);
 }
 
 
 class CancelThread extends Thread {
     @Override
     public void run() {
-        ShareData.flag = 1;
-        System.out.println("CancelThread set flag=" + ShareData.flag);
+        ShareData.flag.set(1);
+        System.out.println("CancelThread setFlag flag=" + ShareData.flag);
     }
 }

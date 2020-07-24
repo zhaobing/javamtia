@@ -30,6 +30,11 @@ public class JITReorderingDemo {
 
   @Actor
   public void createHelper() {
+    /**
+     *1. objRef=allocate(Helper.class)
+     *2. invokeConstructor(objRef)
+     *3. helper=objRef
+     */
     helper = new Helper(externalData);
   }
 

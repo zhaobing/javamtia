@@ -1,8 +1,6 @@
-package prac.non_visibility_by_atomic;
+package prac.ch2.non_visibility_by_synchronized;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-public class VisibilityByAtomicDemo {
+public class VisibilityBySynchronizedDemo {
     public static void main(String[] args) throws InterruptedException {
         new WorkThread().start();
         Thread.sleep(1000);
@@ -17,7 +15,7 @@ class WorkThread extends Thread {
     public void run() {
         System.out.println("WorkThread start");
         while (true) {
-            if (ShareData.flag.get() == 1) {
+            if (ShareData.getFlag() == 1) {
                 break;
             }
         }
@@ -26,14 +24,22 @@ class WorkThread extends Thread {
 }
 
 class ShareData {
-    public static AtomicInteger flag = new AtomicInteger(-1);
+    private static  int flag = -1;
+
+    public static synchronized int getFlag() {
+        return flag;
+    }
+
+    public static synchronized void setFlag(int value) {
+        flag = value;
+    }
 }
 
 
 class CancelThread extends Thread {
     @Override
     public void run() {
-        ShareData.flag.set(1);
-        System.out.println("CancelThread set flag=" + ShareData.flag);
+        ShareData.setFlag(1);
+        System.out.println("CancelThread setFlag flag=" + ShareData.getFlag());
     }
 }

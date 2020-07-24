@@ -1,4 +1,4 @@
-package prac.non_visibility;
+package prac.ch2.non_visibility;
 
 public class NonVisibilityDemo1 {
     public static void main(String[] args) throws InterruptedException {
@@ -32,6 +32,6 @@ class CancelThread extends Thread {
     @Override
     public void run() {
         ShareData.flag = 1;
-        System.out.println("CancelThread set flag=" + ShareData.flag);
+        System.out.println("CancelThread setFlag flag=" + ShareData.flag);
     }
 }
