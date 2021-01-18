@@ -1,0 +1,1 @@
+package prac.ch6.referece.weakReferenceDemo1;

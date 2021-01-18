@@ -39,7 +39,7 @@ public class WaitNotify1 {
         public void run() {
             String name = Thread.currentThread().getName();
             System.out.println(name +" will sleep" + sleepSeconds + " s");
-            Tools.SleepSeconds(sleepSeconds);
+            Tools.sleepSeconds(sleepSeconds);
             System.out.println(name +" End");
         }
     }

@@ -59,5 +59,6 @@ public class AppListener implements ServletContextListener {
   public void contextDestroyed(ServletContextEvent contextEvent) {
     Thread.setDefaultUncaughtExceptionHandler(null);
     stopServices();
+
   }
 }

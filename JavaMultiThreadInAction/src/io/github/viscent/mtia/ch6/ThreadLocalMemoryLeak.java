@@ -23,41 +23,61 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 该类可能导致内存泄漏！
+ *
  * @author Viscent Huang
  */
 @WebServlet("/memoryLeak")
 public class ThreadLocalMemoryLeak extends HttpServlet {
-  private static final long serialVersionUID = 4364376277297114653L;
-  final static ThreadLocal<Counter> counterHolder = new ThreadLocal<Counter>() {
+    public ThreadLocalMemoryLeak() {
+        System.out.println("构造ThreadLocalMemoryLeak");
+    }
+
+    private static final long serialVersionUID = 4364376277297114653L;
+
+    //    final static ThreadLocal<Counter> counterHolder = ThreadLocal.withInitial(() -> {
+    //        Counter tsoCounter = new Counter();
+    //        return tsoCounter;
+    //    });
+
+    final static ThreadLocal<Counter> counterHolder = new ThreadLocal<Counter>() {
+        @Override
+        protected Counter initialValue() {
+            System.out.println("counterHolder initialValue");
+            Counter tsoCounter = new Counter();
+            return tsoCounter;
+        }
+    };
+
+
     @Override
-    protected Counter initialValue() {
-      Counter tsoCounter = new Counter();
-      return tsoCounter;
-    }
-  };
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        System.out.println("调用Get  doGet");
 
-  @Override
-  protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-      throws ServletException, IOException {
-    doProcess(req, resp);
-    try (PrintWriter pwr = resp.getWriter()) {
-      pwr.printf("Thread %s,counter:%d",
-          Thread.currentThread().getName(),
-          counterHolder.get().getAndIncrement());
-    }
-  }
+        Counter counter = counterHolder.get();
+        System.out.format("Thread %s,counter:%d\n",
+                Thread.currentThread().getName(),
+                counter.getAndIncrement());
 
-  private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
-      IOException {
-    counterHolder.get().getAndIncrement();
-    // 省略其他代码
-  }
+        System.out.println("===========");
+        doProcess(req, resp);
+
+    }
+
+    private void doProcess(HttpServletRequest req, HttpServletResponse resp) throws ServletException,
+            IOException {
+        System.out.println("调用Get  doProcess");
+        Counter counter = counterHolder.get();
+        counter.getAndIncrement();
+        // 省略其他代码
+    }
 }
 
 // 非线程安全
 class Counter {
-  private int i = 0;
-  public int getAndIncrement() {
-    return i++;
-  }
+    private int i = 0;
+
+    public int getAndIncrement() {
+        return i++;
+    }
 }

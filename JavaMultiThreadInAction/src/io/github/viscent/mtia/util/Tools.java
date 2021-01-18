@@ -35,6 +35,10 @@ public final class Tools {
     private static final Random rnd = new Random();
     private static final Logger LOGGER = Logger.getAnonymousLogger();
 
+    public static String getCurrentThreadName() {
+        return Thread.currentThread().getName();
+    }
+
     public static void startAndWaitTerminated(Thread... threads)
             throws InterruptedException {
         if (null == threads) {
@@ -179,7 +183,7 @@ public final class Tools {
         return Class.forName(className).newInstance();
     }
 
-    public static void Sleep(long ms) {
+    public static void sleep(long ms) {
         try {
             Thread.sleep(ms);
         } catch (InterruptedException e) {
@@ -187,7 +191,7 @@ public final class Tools {
         }
     }
 
-    public static void SleepSeconds(long timeout) {
+    public static void sleepSeconds(long timeout) {
         try {
             TimeUnit.SECONDS.sleep(timeout);
         } catch (InterruptedException e) {
