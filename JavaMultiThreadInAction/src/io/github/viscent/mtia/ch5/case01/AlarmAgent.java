@@ -110,6 +110,7 @@ public class AlarmAgent {
       boolean isConnected = true;
       final Random random = new Random();
 
+      Thread.currentThread().join();
       // 模拟随机性的网络断链
       int rand = random.nextInt(1000);
       if (rand <= 500) {
